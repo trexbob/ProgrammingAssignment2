@@ -10,15 +10,19 @@ makeCacheMatrix <- function(x = matrix()) {
     m <<- NULL
   }
   get <- function() x
-  setmatrixA <- function(matrixA) m <<- matrixA
-  getmatrixA <- function() m
+  setmatrix <- function(solve) m <<- solve
+  getmatrix <- function() m
+  setinverse <- function(solve) m <<- solveinverse
+  getinverse <- function() m
   list(set = set, get = get,
-       setmatrixA = setmatrixA,
-       getmatrixA = getmatrixA)
+       setmatrix = setmatrix,
+       getmatrix = getmatrix,
+       setinverse = setinverse,
+       getinverse = getinverse)
 }
 
 
-## inverts the matrix based on whether it is cached or not
+## returns the matrix based on computed inverse matrix or cached matrix depending on cache
 
 cacheSolve <- function(x, ...) {
   m <- x$getmatrixA()
