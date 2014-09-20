@@ -1,7 +1,7 @@
 ## These functions create an inverted matrix
 ## and solve the inversion of the matrix if it is not already cached
 
-## Creates special matrix object 
+## Creates special matrix object as per instructions
 
 makeCacheMatrix <- function(x = matrix()) {
   m <- NULL
@@ -10,10 +10,13 @@ makeCacheMatrix <- function(x = matrix()) {
     m <<- NULL
   }
   get <- function() x
-  setmatrix <- function(solve) m <<- solve
+  setmatrix <- function(matrix) m <<- matrix
   getmatrix <- function() m
-  setinverse <- function(solve) m <<- solveinverse
-  getinverse <- function() m
+  setinverse <- function() m <<- m
+  getinverse <- function() {
+    m <<- solve(x)
+    m
+  }
   list(set = set, get = get,
        setmatrix = setmatrix,
        getmatrix = getmatrix,
@@ -25,12 +28,12 @@ makeCacheMatrix <- function(x = matrix()) {
 ## returns the matrix based on computed inverse matrix or cached matrix depending on cache
 
 cacheSolve <- function(x, ...) {
-  m <- x$getmatrixA()
+  m <- x$getmatrix()
   if(!is.null(m)) {
     message("getting cached data")
     return(m)
   }
   data <- x$get()
-  m <- solve(x)
+  m  <- solve(data, ...)
   m      
 }
